@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -15,8 +16,9 @@
   crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="was-validated">
-        <div class="mb-3">      
+    <div class="was-validated" style='display:flex;
+    align-items:center;justify-content:center;'>
+        <div class="mb-3" style='display:flexbox;margin-top:0;'>      
                 
             <textarea class="form-control " id='inpumani'  placeholder='---
 applications:
@@ -27,18 +29,22 @@ applications:
   command: python index.py
 services:
 - mongodb-demo
-  rabbitmq' style='resize:nono;width:400px;height:400px' required></textarea>
+  rabbitmq' 
+  style='width:300px;height:300px;' required></textarea>
         <div class="invalid-feedback">
             Please enter a message in the textarea.
         </div>
         <br>
         <button  id='buttmani'>Let's check</button> 
-        </div>
 
-
+        
         <div class="list-group" id="display_error">    
-            <!-- <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a> -->
+                <!-- <a href="#" class="list-group-item list-group-item-action list-group-item-dark">A simple dark list group item</a> -->
+            </div>
         </div>
+
+
+       
 
     </div>
 
@@ -68,7 +74,7 @@ services:
         if(temp['buildpack']=='' || !temp['buildpack'])
         {
             //console.log('not find buildbpak config use \"cf buildpacks\" find buildpacks and add it ex:\'buildpacks: nodejs_buildpack\'')
-            display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">not find buildbpak config use \"cf buildpacks\" find buildpacks and add it ex:\'buildpacks: nodejs_buildpack\'</a>`)
+            display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">not find buildbpak config use \"cf buildpacks\" find buildpacks and add it ex: buildpacks: nodejs_buildpack</a>`)
         }
         if(temp['memory'] == ''|| !temp['memory'])
         {
@@ -83,7 +89,7 @@ services:
         if(temp['- name'] == '' || !temp['- name'])
         {
             //console.log('no find application name config you can add  ex:-name : example-hello-world')
-            display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">no find application name config you can add  ex:-name : example-hello-world </a>`)
+            display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">no find application name config you can add  ex: -name : example-hello-world </a>`)
         } 
         if(temp['command'] == '' || !temp['command']) 
         {
@@ -96,8 +102,8 @@ services:
             var temp2 = data.split("\n")
             for(var i =0 ;i<temp2.length;i++)
             {
-                display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">no find command config if you use nodejs can add ex:command:node index.js </a>`)
-                console.log(temp2[i].trim())
+                display_error.append(`<a href="#" class="list-group-item list-group-item-action list-group-item-primary">${temp2[i].trim()} </a>`)
+                // console.log(temp2[i].trim())
             }
             
         }

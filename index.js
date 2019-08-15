@@ -35,8 +35,6 @@ app.post("/manifest",(req,res)=>{
 
 app.post("/indexFile", (req, res) => {
  
-
-
   if (req.body.type === "rabbitmq") {
     
   var example_node_code = `
