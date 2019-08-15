@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Microservices of example tutorial</title>
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+     
+        <div>
+                
+                <button id='rabbit'>rabbitMQ</button>
+                <button id='rabbit-mon'>rabbitMQ & MongoDB</button>
+                <button id='rabbit-post'>rabbitMQ & Postgresql</button>
+        </div>
+        <br>
+        
+        <div id='inputservice'>
+
+                    Service Inatance Name:<input type='text' id='servicename' value='p-rabbitmq'>
+                    <br>
+                    Topic:<input type='text' id='topic' value='/hello/#'>
+                    <br>
+                    Application Name:<input type='text' id='applicationname' value='demo'> 
+                    <br>
+                    <button id='getservice'>Create</button>
+                    
+        </div>
+        
+        <br> 
+        <div id='cflogin'></div>
+       
+        <div id='createinstance'></div>
+       
+        <div id='printindex' style='white-space:pre;'></div>
+        <br>
+        <div id='printmanifest' style='white-space:pre;'></div>
+        <br>
+            
+        
+        
+</body>
+
+<script>
+    $(document).ready(()=>{
+        $('#inputservice').hide()
+
+      
+        $("#rabbit").click(()=>{
+            $('#inputservice').show()
+       
+            $("#getservice").click(()=>{
+            
+                  
+                let cookie = {};
+                document.cookie.split(';').forEach(function(el) {
+                    let [k,v] = el.split('=');
+                    cookie[k.trim()] = v;
+                })
+                var account = cookie.WISEUser
+                var hostname = window.location.hostname
+                $("#cflogin").text('cf login -a api.'+hostname.split('.',3)[1]+'.'+hostname.split('.',3)[2]+' -u '+account + ' -p WISE-PaaS/EnSaaS-password' )
+                var service_name=$("#servicename").val()
+                $("#createinstance").text(`cf create-service p-rabbitmq standard ${service_name}`)
+            
+                var topic = $("#topic").val()
+            
+                fetch('/indexFile',{method:'POST',headers: {'Content-Type': 'application/json'},body:JSON.stringify({type:'rabbitmq',servicename:'p-rabbitmq',topic:topic})})
+                .then((res)=>{
+                    res.text()
+                    .then((body)=>{
+                        $("#printindex").text(body)
+                    })
+            
+                })
+
+
+
+                var applicationname = $("#applicationname").val()
+                fetch('/manifest',{method:'POST',headers: {'Content-Type': 'application/json'},body:JSON.stringify({applicationname:applicationname})})
+                .then((res)=>{
+                    res.text()
+                    .then((body)=>{
+                        $("#printmanifest").text(body)
+                    })
+                })
+            
+            })
+       
+        });
+
+
+
+    })
+   
+
+</script>
+</html>
