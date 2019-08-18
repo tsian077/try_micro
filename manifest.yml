@@ -1,7 +1,6 @@
----
 applications:
 - name: try_micro
-  memory: 125M
-  disk_quota: 125M
-  builpacks: nodejs_buildpack
+  memory: 125m
+  disk_quota: 125m
+  buildpack: nodejs_buildpack
   command: node index.js
